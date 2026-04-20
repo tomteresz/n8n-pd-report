@@ -1,0 +1,780 @@
+{
+  "name": "PagerDuty-weekly-report-v1",
+  "nodes": [
+    {
+      "parameters": {
+        "content": "## 1 - Setup initial config\n1) Specify date range\n2) Specify schedule (cron)",
+        "height": 464,
+        "width": 448,
+        "color": 4
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "typeVersion": 1,
+      "position": [
+        -1584,
+        -768
+      ],
+      "id": "24b91ec4-2a4c-4314-9930-666f036a7a26",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## 2 - Pull data from PagerDuty\n1) Specify auth\n2) Specify headers\n3) Specify pagination",
+        "height": 464,
+        "width": 448
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1120,
+        -768
+      ],
+      "typeVersion": 1,
+      "id": "4cb75b9f-94e6-44cd-a183-b8946f632eac",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## 4 - Extract from prepared data\n1. Extract fields that you like",
+        "height": 464,
+        "width": 448,
+        "color": 6
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -192,
+        -768
+      ],
+      "typeVersion": 1,
+      "id": "fd2e4836-a030-48a7-9116-16eb1b59c201",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "# PagerDuty report - alerts from last 7 days.",
+        "height": 80,
+        "width": 752,
+        "color": 7
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -1584,
+        -864
+      ],
+      "typeVersion": 1,
+      "id": "5759a644-7092-46aa-bb78-103952bff805",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "url": "=https://api.pagerduty.com/incidents",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "100"
+            },
+            {
+              "name": "total",
+              "value": "true"
+            },
+            {
+              "name": "since",
+              "value": "={{ $json.since }}"
+            },
+            {
+              "name": "until",
+              "value": "={{ $json.until }}"
+            },
+            {
+              "name": "service_ids[]",
+              "value": "=PSJICJW7"
+            },
+            {
+              "name": "team_ids[]",
+              "value": "PLUT9CIA"
+            },
+            {
+              "name": "team_ids[]",
+              "value": "PVC4N521"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/vnd.pagerduty+json;version=2"
+            },
+            {
+              "name": "offset",
+              "value": "0"
+            }
+          ]
+        },
+        "options": {
+          "pagination": {
+            "pagination": {
+              "parameters": {
+                "parameters": [
+                  {
+                    "name": "offset",
+                    "value": "={{ $response.body.offset + $response.body.limit }}"
+                  }
+                ]
+              },
+              "paginationCompleteWhen": "other",
+              "completeExpression": "={{$response.body.more == false}}",
+              "requestInterval": 1000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -928,
+        -640
+      ],
+      "id": "2ed80b16-89bf-4da0-97fc-aebe9b324de5",
+      "name": "On Call - Data Center",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "7wkpydo0B7dKLl7A",
+          "name": "PD-by-header"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "url": "=https://api.pagerduty.com/incidents",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "limit",
+              "value": "100"
+            },
+            {
+              "name": "total",
+              "value": "true"
+            },
+            {
+              "name": "since",
+              "value": "={{ $json.since }}"
+            },
+            {
+              "name": "until",
+              "value": "={{ $json.until }}"
+            },
+            {
+              "name": "service_ids[]",
+              "value": "=PQP7OIS7"
+            },
+            {
+              "name": "team_ids[]",
+              "value": "PLUT9CIA"
+            },
+            {
+              "name": "team_ids[]",
+              "value": "PVC4N521"
+            }
+          ]
+        },
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Accept",
+              "value": "application/vnd.pagerduty+json;version=2"
+            },
+            {
+              "name": "offset",
+              "value": "0"
+            }
+          ]
+        },
+        "options": {
+          "pagination": {
+            "pagination": {
+              "parameters": {
+                "parameters": [
+                  {
+                    "name": "offset",
+                    "value": "={{ $response.body.offset + $response.body.limit }}"
+                  }
+                ]
+              },
+              "paginationCompleteWhen": "other",
+              "completeExpression": "={{$response.body.more == false}}",
+              "requestInterval": 1000
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -928,
+        -480
+      ],
+      "id": "f3414909-6016-4a0d-a815-de7708907f9d",
+      "name": "Uptime Synthetic Transaction",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "7wkpydo0B7dKLl7A",
+          "name": "PD-by-header"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        -640
+      ],
+      "id": "ac2019bc-a3c3-4451-8115-f181d293f39b",
+      "name": "On Call - Data Center - Aggregate"
+    },
+    {
+      "parameters": {
+        "aggregate": "aggregateAllItemData",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.aggregate",
+      "typeVersion": 1,
+      "position": [
+        -576,
+        -480
+      ],
+      "id": "45af0309-ff29-404b-87d4-dce34698a5ea",
+      "name": "Uptime Synthetic Transaction - Aggregate"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        -336,
+        -576
+      ],
+      "id": "ea5eacfe-521a-4dbf-8a58-fc9684dd85bd",
+      "name": "Merge-PD-Services"
+    },
+    {
+      "parameters": {
+        "jsCode": "const result = [];\n\n// Loop through every incoming item (usually just 1, but works for multiple)\nfor (const item of items) {\n  const dataArray = item.json.data || [];\n\n  // Loop through every object in data[] (data[0], data[1], data[2], ...)\n  dataArray.forEach(dataObj => {\n    const incidents = dataObj.incidents || [];\n\n    incidents.forEach(incident => {\n      result.push({\n        json: {\n          ID: incident.id,\n          Incident_NR: incident.incident_number,\n          Title: incident.title,\n          Service: incident.service.summary,\n          Created: incident.created_at,\n          Resolved: incident.resolved_at,\n          Status: incident.status,\n          Incident_url: incident.html_url\n        }\n      });\n    });\n  });\n}\n\nreturn result;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -16,
+        -688
+      ],
+      "id": "92768545-2fd9-4421-a5f5-1a92551beb38",
+      "name": "Get-Incidents-details (id, title, service-name, status)"
+    },
+    {
+      "parameters": {
+        "content": "## 3 - Prepare data from different services\n1. Aggregate and merge data from different services",
+        "height": 464,
+        "width": 448,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -656,
+        -768
+      ],
+      "typeVersion": 1,
+      "id": "ccda2129-1fa9-4daa-b931-ddd3447ccb0a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f8e551af-d01a-48a2-b0da-9cb27b773b40",
+              "name": "=since",
+              "value": "={{ new Date(Date.now() - 7*24*60*60*1000).toISOString() }}",
+              "type": "string"
+            },
+            {
+              "id": "3d3362c5-a895-49ac-bfdf-3e58cc498cf4",
+              "name": "until",
+              "value": "={{ new Date().toISOString() }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -1328,
+        -512
+      ],
+      "id": "bb9f898e-6232-4575-9a65-82fac7de438e",
+      "name": "Last7days"
+    },
+    {
+      "parameters": {
+        "content": "## 5 - Prepare the report (csv, html, markdown)\n1. Create the report in different formats, for attachment, email or other",
+        "height": 464,
+        "width": 688,
+        "color": 2
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        288,
+        -768
+      ],
+      "typeVersion": 1,
+      "id": "c5057a01-d869-4321-aef3-4128b9e85cd7",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "cronExpression",
+              "expression": "0 6 * * 1"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        -1312,
+        -704
+      ],
+      "id": "91a3f4f0-5f74-4925-9e16-2923afd10bdf",
+      "name": "Schedule Trigger",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "content": "## 6 - Send the report via email, slack, etc\n1. Use AI to summarize the data",
+        "height": 464,
+        "width": 688,
+        "color": 5
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        288,
+        -288
+      ],
+      "typeVersion": 1,
+      "id": "d1893dcc-e5a7-4648-83a6-37704402d55f",
+      "name": "Sticky Note6"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "f53b862a-75df-41ee-9733-4ec174c538ed",
+              "name": "Incident ID",
+              "value": "={{ $json.ID }}",
+              "type": "string"
+            },
+            {
+              "id": "fe23cbb1-44d1-4d24-91d7-3522f6c7b6a9",
+              "name": "Incident title",
+              "value": "={{ $json.Title }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        -16,
+        -448
+      ],
+      "id": "3cbb1a45-d0fa-463b-b021-77996b353820",
+      "name": "Extract-id-and-title"
+    },
+    {
+      "parameters": {
+        "jsCode": "// n8n Function Node – Top 20 titles by count\nconst counts = items.reduce((acc, item) => {\n  const title = item.json[\"Incident title\"] || '(No title)';\n  acc[title] = (acc[title] || 0) + 1;\n  return acc;\n}, {});\n\n// Convert to array, sort by count descending, take top 20\nreturn Object.entries(counts)\n  .sort((a, b) => b[1] - a[1])    // highest count first\n  .slice(0, 20)                  // only top 20\n  .map(([title, count], index) => ({\n    json: {\n      Rank: index + 1,\n      Title: title,\n      Count: count\n    }\n  }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        336,
+        -480
+      ],
+      "id": "d86ef5f2-ecf6-40c8-a2da-d0e87779fc84",
+      "name": "Get-top20-alerts"
+    },
+    {
+      "parameters": {
+        "operation": "convertToHtmlTable",
+        "options": {
+          "capitalize": true,
+          "customStyling": false,
+          "tableAttributes": "style=\"border-collapse: collapse; border: 1px solid #000;\"",
+          "headerAttributes": "=style=\"background-color: #eeeeee; color: #000;\"",
+          "rowAttributes": "style=\"background-color: #ffffff;\"",
+          "cellAttributes": "=style=\"border: 1px solid #000; padding: 4px;\""
+        }
+      },
+      "type": "n8n-nodes-base.html",
+      "typeVersion": 1.2,
+      "position": [
+        496,
+        -480
+      ],
+      "id": "f12a63ac-bfb5-4139-8f6b-8b59f2f0f8ca",
+      "name": "Create-html-table"
+    },
+    {
+      "parameters": {
+        "sendTo": "your-email@example.com",
+        "subject": "=PD Trends for Week {{ $now.weekNumber }}",
+        "message": "=Hello Team,<br><br>\n\nPlease find attached the complete list of alerts from the past 7 days.<br><br>\n\nBelow are the top 20 alerts.<br><br>\n\n{{ $json.table }}\n\n<br>\nRegards.",
+        "options": {
+          "attachmentsUi": {
+            "attachmentsBinary": [
+              {
+                "property": "csv-export"
+              }
+            ]
+          }
+        }
+      },
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [
+        672,
+        -128
+      ],
+      "id": "70067587-9074-4698-9cba-7ece8b65611a",
+      "name": "Prepare-and-send-an-email",
+      "webhookId": "03864c4b-bc01-4518-b490-d98e0e24fbea",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "Ywkpydo0B7dKLl7A",
+          "name": "Gmail-WJ"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineAll",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        816,
+        -544
+      ],
+      "id": "cb0dd271-ec3e-4421-91e1-3469bafad810",
+      "name": "Merge-csv-and-html-data"
+    },
+    {
+      "parameters": {
+        "content": "## How to preview Markdown\n**https://elementor.com/tools/markdown/** download the file, copy and paste the content to the website",
+        "height": 336,
+        "width": 336
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        992,
+        -864
+      ],
+      "typeVersion": 1,
+      "id": "b9822056-c91a-44f3-93c5-94fa4d12ae37",
+      "name": "Sticky Note7"
+    },
+    {
+      "parameters": {
+        "html": "={{ $json.table }}",
+        "destinationKey": "Markdown-incidents-table",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.markdown",
+      "typeVersion": 1,
+      "position": [
+        816,
+        -720
+      ],
+      "id": "47156936-6b32-4326-b04a-51e0b759bad3",
+      "name": "Convert-to-markdown"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "Markdown-incidents-table",
+        "options": {
+          "fileName": "incidents-list-markdown"
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        1104,
+        -720
+      ],
+      "id": "a78f03e1-ca67-4028-aeb8-f9941412e11b",
+      "name": "Markdown-file"
+    },
+    {
+      "parameters": {
+        "binaryPropertyName": "=csv-export",
+        "options": {
+          "delimiter": ",",
+          "fileName": "incidents-list.csv",
+          "headerRow": true
+        }
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        416,
+        -656
+      ],
+      "id": "861374f6-9a49-4626-856d-fbf02205c397",
+      "name": "Create-csv-file"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1552,
+        -608
+      ],
+      "id": "e3f07943-b6b7-4e91-849d-c39e44747c9a",
+      "name": "Run-manually"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "On Call - Data Center": {
+      "main": [
+        [
+          {
+            "node": "On Call - Data Center - Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Uptime Synthetic Transaction": {
+      "main": [
+        [
+          {
+            "node": "Uptime Synthetic Transaction - Aggregate",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "On Call - Data Center - Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Merge-PD-Services",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Uptime Synthetic Transaction - Aggregate": {
+      "main": [
+        [
+          {
+            "node": "Merge-PD-Services",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge-PD-Services": {
+      "main": [
+        [
+          {
+            "node": "Get-Incidents-details (id, title, service-name, status)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-Incidents-details (id, title, service-name, status)": {
+      "main": [
+        [
+          {
+            "node": "Extract-id-and-title",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Create-csv-file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Last7days": {
+      "main": [
+        [
+          {
+            "node": "On Call - Data Center",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Uptime Synthetic Transaction",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract-id-and-title": {
+      "main": [
+        [
+          {
+            "node": "Get-top20-alerts",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get-top20-alerts": {
+      "main": [
+        [
+          {
+            "node": "Create-html-table",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create-html-table": {
+      "main": [
+        [
+          {
+            "node": "Merge-csv-and-html-data",
+            "type": "main",
+            "index": 1
+          },
+          {
+            "node": "Convert-to-markdown",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare-and-send-an-email": {
+      "main": [
+        []
+      ]
+    },
+    "Merge-csv-and-html-data": {
+      "main": [
+        [
+          {
+            "node": "Prepare-and-send-an-email",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert-to-markdown": {
+      "main": [
+        [
+          {
+            "node": "Markdown-file",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Create-csv-file": {
+      "main": [
+        [
+          {
+            "node": "Merge-csv-and-html-data",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Schedule Trigger": {
+      "main": [
+        []
+      ]
+    },
+    "Run-manually": {
+      "main": [
+        [
+          {
+            "node": "Last7days",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "7229bb04-b39f-4df4-800e-9dd8fc5a5c3a",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "BBb0ba0177ea71cce0490929607f8e6778d93ec2687057c8fe0420fdfb712ffdf5"
+  },
+  "id": "fl85QYxPo3h6vmCz",
+  "tags": [
+    {
+      "updatedAt": "2025-11-21T18:48:55.079Z",
+      "createdAt": "2025-11-21T18:48:55.079Z",
+      "id": "sNBymqrfoiR9W1wT",
+      "name": "prod"
+    }
+  ]
+}
