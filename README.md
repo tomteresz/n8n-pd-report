@@ -19,6 +19,8 @@ sending them directly to the team's inbox.
 
 ## ⚙️ How It Works
 
+![Tux, the Linux mascot](index-main-page.jpg)
+
 The workflow is organised into 6 logical stages:
 
 ### 1. 🗓️ Setup Initial Config
